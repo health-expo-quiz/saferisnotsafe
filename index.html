@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safer Is Not Safe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Bebas+Neue&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2c0000 0%, #4a0000 100%);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5em;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path fill="%23a52a2a" d="M0 50c20-30 40-30 60 0s40 30 60 0 40-30 60 0 40 30 60 0v50H0z"/></svg>') repeat-x bottom;
+      background-size: 200px 50px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    section {
+      margin: 20px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.8s ease;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      color: #a52a2a;
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 450px;
+      margin: 0 auto;
+      background: #3c0000;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    input, textarea {
+      margin: 10px 0;
+      padding: 12px;
+      border: 2px solid #a52a2a;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1em;
+      background: #1c0000;
+      color: #fff;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #8b0000;
+      outline: none;
+      transform: scale(1.02);
+    }
+    button {
+      padding: 12px;
+      background: linear-gradient(45deg, #a52a2a, #8b0000);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2em;
+      transition: background 0.3s, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #8b0000, #5c0000);
+      transform: scale(1.05);
+    }
+    button::after {
+      content: '⚠️';
+      margin-left: 10px;
+    }
+    .pledge-wall {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #3c0000;
+      border-radius: 10px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .notification {
+      background: linear-gradient(45deg, #a52a2a, #8b0000);
+      color: #fff;
+      padding: 15px 25px;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1em;
+      animation: fadeIn 1s ease;
+      display: flex;
+      align-items: center;
+    }
+    .notification::before {
+      content: '🚨';
+      margin-right: 10px;
+    }
+    .risks-content {
+      font-size: 1.2em;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .risks-content p {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .risks-content p::before {
+      content: '💀';
+      margin-right: 10px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.1em;
+    }
+    li {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    li::before {
+      content: '📞';
+      margin-right: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #5c0000;
+      color: #a52a2a;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1em;
+      margin-top: auto;
+      border-top: 2px dashed #8b0000;
+    }
+  </style>
+</head>
+<body>
+  <h1>#SAFERISNOTSAFE</h1>
+  <section id="pledge">
+    <h2>Join the Fight! ⚠️</h2>
+    <form id="pledgeForm">
+      <input type="text" id="firstName" placeholder="First Name" required>
+      <input type="number" id="age" placeholder="Age" min="12" max="18" required>
+      <input type="text" id="city" placeholder="City" required>
+      <textarea id="message" placeholder="Your Pledge" required></textarea>
+      <button type="submit">Add My Pledge</button>
+    </form>
+  </section>
+  <section id="pledge-wall">
+    <h2>Pledge Wall ⚠️</h2>
+    <div class="pledge-wall" id="pledgeWall"></div>
+  </section>
+  <section id="risks">
+    <h2>Risks ⚠️</h2>
+    <div class="risks-content">
+      <p>Vaping can cause fatal harm to your lungs. The chemicals in vapes may cause the irreversible popcorn lung, a scarring condition that is deadly.</p>
+      <p>Nicotine in vapes is highly addictive, especially for teens. 1 in 5 Aussie teens have tried vaping, and 10% are hooked!</p>
+      <p>Flavoured vapes might seem fun, but they often hide harmful toxins like formaldehyde, which has been proven to be carcinogenic (cancer causing).</p>
+      <p>Secondhand vape smoke can affect your friends and family, exposing them to nicotine and other nasty chemicals.</p>
+      <p>Disposable vapes are terrible for the environment, as millions end up in landfills with metal casings and plastic as well as leaking toxic chemicals into the soil.</p>
+    </div>
+  </section>
+  <section id="help">
+    <h2>Getting Help ⚠️</h2>
+    <p>Need support? Reach out to these free services:</p>
+    <ul>
+      <li>Quitline: 13 78 48</li>
+      <li>Youthbeyondblue: 1300 22 4636</li>
+    </ul>
+  </section>
+  <footer>
+    Made by Calloway 💀
+  </footer>
+
+  <script>
+    // Predefined Pledges
+    const predefinedPledges = [
+      { name: "Lachlan", age: 16, city: "Sydney", pledge: "I'm not interested in vaping." },
+      { name: "Aisha", age: 19, city: "Melbourne", pledge: "I will tell my friends vaping is harmful." },
+      { name: "William", age: 22, city: "Brisbane", pledge: "I want to stop young people vaping." },
+      { name: "Olivia", age: 17, city: "Perth", pledge: "Vaping is not for me." },
+      { name: "Noah", age: 20, city: "Adelaide", pledge: "I need to learn the effects of vaping." },
+      { name: "Fatima", age: 18, city: "Canberra", pledge: "I think vaping is unwise." },
+      { name: "Jack", age: 23, city: "Hobart", pledge: "I will avoid vaping." },
+      { name: "Emily", age: 15, city: "Darwin", pledge: "I will not try vaping." },
+      { name: "Henry", age: 25, city: "Gold Coast", pledge: "Let's keep our air clean." },
+      { name: "Charlotte", age: 16, city: "Newcastle", pledge: "I wonder what is in vapes." },
+      { name: "Thomas", age: 21, city: "Wollongong", pledge: "I help friends quit vaping." },
+      { name: "Ava", age: 14, city: "Geelong", pledge: "I want to be healthy, no vapes." },
+      { name: "Oliver", age: 24, city: "Sunshine Coast", pledge: "Vaping laws should be stricter." },
+      { name: "Amelia", age: 17, city: "Townsville", pledge: "I will make smart choices about vapes." },
+      { name: "Kai", age: 20, city: "Cairns", pledge: "There are better things than vaping." },
+      { name: "Chloe", age: 15, city: "Toowoomba", pledge: "I have to learn the risks of vaping." },
+      { name: "Ethan", age: 22, city: "Ballarat", pledge: "Let's aim for no young vapers." },
+      { name: "Sophia", age: 18, city: "Bendigo", pledge: "Nicotine is bad, even in vapes." },
+      { name: "James", age: 23, city: "Albury", pledge: "Flavored vapes seem suspicious." },
+      { name: "Matilda", age: 16, city: "Launceston", pledge: "My lungs are more important than vapes." },
+      { name: "Omar", age: 21, city: "Maitland", pledge: "I support the anti-vaping movement." },
+      { name: "Grace", age: 19, city: "Mackay", pledge: "My health is too good for vaping." },
+      { name: "Lucas", age: 24, city: "Rockhampton", pledge: "There are better ways to relax than vaping." },
+      { name: "Lily", age: 14, city: "Bunbury", pledge: "If offered a vape, I will decline." },
+      { name: "Lachlan", age: 25, city: "Melton", pledge: "I will show young people not to vape." },
+      { name: "Ruby", age: 17, city: "Mildura", pledge: "What is actually in vapes? Hmm." },
+      { name: "Archie", age: 20, city: "Shepparton", pledge: "I am interested in programs to stop vaping." },
+      { name: "Ivy", age: 15, city: "Warrnambool", pledge: "Fresh air is better than vape clouds." },
+      { name: "Samir", age: 22, city: "Kalgoorlie", pledge: "Vapes can be addictive." },
+      { name: "Bronte", age: 18, city: "Geraldton", pledge: "Let's promote a vape-free life." },
+      { name: "Hamish", age: 23, city: "Albany", pledge: "Be smart about vaping companies." },
+      { name: "Bonnie", age: 16, city: "Broome", pledge: "My breathing is too important for vapes." },
+      { name: "Jian", age: 21, city: "Alice Springs", pledge: "I will help friends quit vaping." },
+      { name: "Talia", age: 17, city: "Katherine", pledge: "My future is vape-free." },
+      { name: "Ned", age: 24, city: "Yarra Ranges", pledge: "More information on why vaping is bad." },
+      { name: "Zara", age: 19, city: "Mornington Peninsula", pledge: "Vaping should not be normal." },
+      { name: "Kiran", age: 20, city: "Noosa", pledge: "There are much better things than vaping." },
+      { name: "Jasmine", age: 16, city: "Margaret River", pledge: "How will vaping affect my future?" },
+      { name: "Mateo", age: 22, city: "Parramatta", pledge: "Disposable vapes are bad for the environment." },
+      { name: "Layla", age: 15, city: "Liverpool", pledge: "My mind and body deserve no vapes." },
+      { name: "Muhammad", age: 23, city: "Chatswood", pledge: "Stricter rules on who can buy vapes." },
+      { name: "Sienna", age: 17, city: "Dandenong", pledge: "I will tell my friends to avoid vapes." },
+      { name: "Ali", age: 21, city: "Coburg", pledge: "Secondhand vape smoke can be harmful." },
+      { name: "Hana", age: 18, city: "Springvale", pledge: "I choose a life without vapes." },
+      { name: "Gabriel", age: 24, city: "Leichhardt", pledge: "Vape advertisements try to trick you." },
+      { name: "Sofia", age: 16, city: "Carlton", pledge: "I have to keep my friends away from vapes." },
+      { name: "Daniel", age: 25, city: "Fremantle", pledge: "Let's make our city vape-free." },
+      { name: "Sara", age: 19, city: "Subiaco", pledge: "Vaping might lead to other things." },
+      { name: "Samuel", age: 20, city: "Armadale", pledge: "I have to learn the facts about vaping." },
+      { name: "Isabella", age: 18, city: "Joondalup", pledge: "My future is too bright for vaping." },
+      { name: "Angus", age: 17, city: "Armidale", pledge: "I choose not to vape." },
+      { name: "Bronte", age: 20, city: "Bathurst", pledge: "Vaping won't be a part of my life." },
+      { name: "Callum", age: 15, city: "Busselton", pledge: "I'm saying no to vaping." },
+      { name: "Darcy", age: 22, city: "Devonport", pledge: "I'm committed to staying vape-free." },
+      { name: "Eliza", age: 19, city: "Esperance", pledge: "I value my health over vaping." },
+      { name: "Flynn", age: 24, city: "Geraldton", pledge: "I reject vaping." },
+      { name: "Greer", age: 16, city: "Gympie", pledge: "I won't start vaping." },
+      { name: "Hamish", age: 18, city: "Hervey Bay", pledge: "I'm making a stand against vaping." },
+      { name: "Ingrid", age: 21, city: "Ipswich", pledge: "I'm choosing the vape-free option." },
+      { name: "Jasper", age: 14, city: "Joondalup", pledge: "I'm staying away from vapes." },
+      { name: "Keira", age: 23, city: "Karratha", pledge: "I'm dedicated to a vape-free lifestyle." },
+      { name: "Levi", age: 25, city: "Katherine", pledge: "I'm resolved to avoid vaping." },
+      { name: "Maisie", age: 17, city: "Mandurah", pledge: "I'm not going to vape." },
+      { name: "Oscar", age: 20, city: "Mount Isa", pledge: "I'm not interested in trying vapes." },
+      { name: "Pippa", age: 19, city: "Port Augusta", pledge: "I'm opposed to vaping." },
+      { name: "Quinn", age: 22, city: "Queanbeyan", pledge: "I'm passing on vapes." },
+      { name: "Riley", age: 16, city: "Rockingham", pledge: "I'm refusing to vape." },
+      { name: "Skye", age: 18, city: "Sale", pledge: "I'm steering clear of vaping." },
+      { name: "Toby", age: 21, city: "Tamworth", pledge: "I'm turning down vapes." },
+      { name: "Ursula", age: 15, city: "Ulverstone", pledge: "I'm uninterested in vaping." },
+      { name: "Vance", age: 24, city: "Victor Harbor", pledge: "I'm valuing my health over vapes." },
+      { name: "Willow", age: 14, city: "Warragul", pledge: "I'm vetoing vapes." },
+      { name: "Xander", age: 23, city: "Whyalla", pledge: "I'm walking away from vaping." },
+      { name: "Yasmin", age: 18, city: "Yarrawonga", pledge: "I'm saying no to vapes, full stop." },
+      { name: "Zane", age: 20, city: "Alice Springs", pledge: "I'm choosing to be vape-free." },
+      { name: "Astrid", age: 17, city: "Armadale, WA", pledge: "Vaping is not for me, ever." },
+      { name: "Bjorn", age: 22, city: "Bowen", pledge: "I reject the idea of vaping." },
+      { name: "Freya", age: 19, city: "Braidwood", pledge: "I am committed to a vape-free life." },
+      { name: "Gunnar", age: 20, city: "Cessnock", pledge: "I will not participate in vaping." },
+      { name: "Heidi", age: 16, city: "Cooma", pledge: "I value clean air over vaping." },
+      { name: "Jens", age: 21, city: "Derby, WA", pledge: "I'm making a healthy choice - no vapes." },
+      { name: "Katia", age: 18, city: "Echuca", pledge: "I'm resolved to stay vape-free." },
+      { name: "Lars", age: 23, city: "Exmouth", pledge: "I stand against youth vaping." },
+      { name: "Liv", age: 15, city: "Gawler", pledge: "I'm choosing my health, not vapes." },
+      { name: "Magnus", age: 24, city: "Gympie", pledge: "I'm dedicated to living vape-free." },
+      { name: "Solveig", age: 14, city: "Halls Creek", pledge: "I'm saying no to vaping, always." },
+      { name: "Thorin", age: 25, city: "Ingham", pledge: "I'm prioritizing my well-being over vapes." },
+      { name: "Yara", age: 17, city: "Kalgoorlie", pledge: "I'm making a positive choice - no vaping." },
+      { name: "Zeke", age: 19, city: "Kununurra", pledge: "I'm committed to avoiding vapes." },
+      { name: "Larisa", age: 24, city: "Nowra", pledge: "I'm pledging to protect my lungs." },
+      { name: "Nikolai", age: 18, city: "Orange, NSW", pledge: "I'm resolved to keep my body vape-free." },
+      { name: "Aarav", age: 17, city: "Sydney", pledge: "No vaping for me, thanks." },
+      { name: "Diya", age: 20, city: "Melbourne", pledge: "I choose a vape-free life." },
+      { name: "Rohan", age: 15, city: "Brisbane", pledge: "I'm saying no to vapes." },
+      { name: "Anika", age: 22, city: "Perth", pledge: "I'm committed to good health." },
+      { name: "Arjun", age: 19, city: "Adelaide", pledge: "I value my well-being." },
+      { name: "Meera", age: 24, city: "Canberra", pledge: "I'm making healthy choices." },
+      { name: "Tenzin", age: 16, city: "Hobart", pledge: "I'm staying away from vapes." },
+      { name: "Karma", age: 18, city: "Darwin", pledge: "I reject vaping." },
+      { name: "Jigme", age: 21, city: "Gold Coast", pledge: "I'm choosing not to vape." },
+      { name: "Pema", age: 14, city: "Newcastle", pledge: "I'm not interested in vapes." },
+      { name: "Wang", age: 23, city: "Wollongong", pledge: "I'm avoiding vaping." },
+      { name: "Li", age: 17, city: "Geelong", pledge: "I'm living vape-free." },
+      { name: "Wei", age: 20, city: "Sunshine Coast", pledge: "I'm all about clean air." },
+      { name: "Zhang", age: 15, city: "Townsville", pledge: "I'm saying no to vaping." },
+      { name: "Xin", age: 22, city: "Cairns", pledge: "I value my health too much." }
+    ];
+
+    // Pledge Form Submission
+    document.getElementById('pledgeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const firstName = document.getElementById('firstName').value;
+      const age = document.getElementById('age').value;
+      const city = document.getElementById('city').value;
+      const message = document.getElementById('message').value;
+      const pledgeWall = document.getElementById('pledgeWall');
+      const newPledge = document.createElement('div');
+      newPledge.className = 'notification';
+      newPledge.innerHTML = `<strong>${firstName}, ${age} (${city}):</strong> ${message}`;
+      pledgeWall.prepend(newPledge);
+      this.reset();
+    });
+
+    // Display Predefined Pledges
+    let pledgeIndex = 0;
+    const pledgeWall = document.getElementById('pledgeWall');
+    function showPledges() {
+      if (pledgeIndex < predefinedPledges.length) {
+        const pledge = predefinedPledges[pledgeIndex];
+        const newPledge = document.createElement('div');
+        newPledge.className = 'notification';
+        newPledge.innerHTML = `<strong>${pledge.name}, ${pledge.age} (${pledge.city}):</strong> ${pledge.pledge}`;
+        pledgeWall.prepend(newPledge);
+        pledgeIndex++;
+        setTimeout(showPledges, Math.random() * 2000 + 3000); // 3-5 seconds delay
+      }
+    }
+    showPledges();
+  </script>
+</body>
+</html>
